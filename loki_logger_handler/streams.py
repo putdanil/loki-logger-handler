@@ -8,6 +8,9 @@ class _LokiRequestEncoder(json.JSONEncoder):
             return {"streams": [stream.__dict__ for stream in obj.streams]}
         elif isinstance(obj, set):  # Добавлено: обработка множеств
             obj= list(obj)
+        if isinstance(obj, list):
+            # Рекурсивно сериализуем каждый элемент списка
+            obj = [self.default(item) if isinstance(item, (Streams, Stream)) else item for item in obj]
         return json.JSONEncoder.default(self, obj)
 
 
