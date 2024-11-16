@@ -4,7 +4,8 @@ import json
 class _LokiRequestEncoder(json.JSONEncoder):
     def default(self, obj):
         print("Data being serialized:", obj)  # Отладка
-        return {
+        if isinstance(obj, Streams):
+            return {
                 "streams": [
                     {
                         key: list(value) if isinstance(value, set) else value
