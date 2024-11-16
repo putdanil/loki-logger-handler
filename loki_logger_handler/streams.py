@@ -5,15 +5,9 @@ class _LokiRequestEncoder(json.JSONEncoder):
     def default(self, obj):
         print("Data being serialized:", obj)  # Отладка
         if isinstance(obj, Streams):
-            return {
-                "streams": [
-                    {
-                        key: list(value) if isinstance(value, set) else value
-                        for key, value in stream.__dict__.items()
-                    }
-                    for stream in obj.streams
-                ]
-            }
+            return {"streams": [stream.__dict__ for stream in obj.streams]}
+        elif isinstance(obj, set):  # Добавлено: обработка множеств
+            obj= list(obj)
         return json.JSONEncoder.default(self, obj)
 
 
