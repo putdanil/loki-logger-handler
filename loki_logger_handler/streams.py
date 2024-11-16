@@ -3,6 +3,7 @@ import json
 
 class _LokiRequestEncoder(json.JSONEncoder):
     def default(self, obj):
+        print("Data being serialized:", obj)  # Отладка
         if isinstance(obj, Streams):
             return {"streams": [stream.__dict__ for stream in obj.streams]}
         return json.JSONEncoder.default(self, obj)
